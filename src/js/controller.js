@@ -7,6 +7,11 @@ import searchView from './views/searchView';
 import resultsView from './views/resultsView';
 import paginationView from './views/paginationView';
 
+const search = document.querySelector('.search');
+search.addEventListener('submit', e => {
+  e.preventDefault();
+});
+
 const controlRecipes = async function () {
   try {
     const id = window.location.hash.slice(1);
