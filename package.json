@@ -9,13 +9,14 @@
   },
   "author": "nvquyet",
   "license": "ISC",
-  "devDependencies": {},
   "dependencies": {
-    "@parcel/transformer-sass": "^2.6.2",
-    "parcel": "^2.6.2",
     "core-js": "^3.24.0",
     "fractional": "^1.0.0",
     "regenerator-runtime": "^0.13.9",
     "sass": "^1.54.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.7.0",
+    "parcel": "^2.7.0"
   }
 }

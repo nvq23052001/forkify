@@ -281,7 +281,7 @@ function removeErrorOverlay() {
     var overlay = document.getElementById(OVERLAY_ID);
     if (overlay) {
         overlay.remove();
-        console.log("[parcel] \u2728 Error resolved");
+        console.log("[parcel] ✨ Error resolved");
     }
 }
 function createErrorOverlay(diagnostics) {
@@ -452,23 +452,23 @@ function hmrApply(bundle, asset) {
         } else if (bundle.parent) hmrApply(bundle.parent, asset);
     }
 }
-function hmrDelete(bundle, id1) {
+function hmrDelete(bundle, id) {
     let modules = bundle.modules;
     if (!modules) return;
-    if (modules[id1]) {
+    if (modules[id]) {
         // Collect dependencies that will become orphaned when this module is deleted.
-        let deps = modules[id1][1];
+        let deps = modules[id][1];
         let orphans = [];
         for(let dep in deps){
             let parents = getParents(module.bundle.root, deps[dep]);
             if (parents.length === 1) orphans.push(deps[dep]);
         } // Delete the module. This must be done before deleting dependencies in case of circular dependencies.
-        delete modules[id1];
-        delete bundle.cache[id1]; // Now delete the orphans.
+        delete modules[id];
+        delete bundle.cache[id]; // Now delete the orphans.
         orphans.forEach((id)=>{
             hmrDelete(module.bundle.root, id);
         });
-    } else if (bundle.parent) hmrDelete(bundle.parent, id1);
+    } else if (bundle.parent) hmrDelete(bundle.parent, id);
 }
 function hmrAcceptCheck(bundle, id, depsByBundle) {
     if (hmrAcceptCheckOne(bundle, id, depsByBundle)) return true;
@@ -586,37 +586,7 @@ const init = ()=>{
 };
 init();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./model":"Y4A21","./views/recipeView":"l60JC","./views/searchView":"9OQAM","./views/resultsView":"cSbZE","./views/paginationView":"6z7bi"}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"49tUX":[function(require,module,exports) {
+},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./model":"Y4A21","./views/recipeView":"l60JC","./views/searchView":"9OQAM","./views/resultsView":"cSbZE","./views/paginationView":"6z7bi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"49tUX":[function(require,module,exports) {
 // TODO: Remove this module from `core-js@4` since it's split to modules listed below
 require("../modules/web.clear-immediate");
 require("../modules/web.set-immediate");
@@ -1738,7 +1708,7 @@ $({
     try {
         // IE 8 has a broken Object.defineProperty that only works on DOM objects.
         define({}, "");
-    } catch (err1) {
+    } catch (err) {
         define = function(obj, key, value) {
             return obj[key] = value;
         };
@@ -1850,13 +1820,13 @@ $({
             if (record.type === "throw") reject(record.arg);
             else {
                 var result = record.arg;
-                var value1 = result.value;
-                if (value1 && typeof value1 === "object" && hasOwn.call(value1, "__await")) return PromiseImpl.resolve(value1.__await).then(function(value) {
+                var value = result.value;
+                if (value && typeof value === "object" && hasOwn.call(value, "__await")) return PromiseImpl.resolve(value.__await).then(function(value) {
                     invoke("next", value, resolve, reject);
                 }, function(err) {
                     invoke("throw", err, resolve, reject);
                 });
-                return PromiseImpl.resolve(value1).then(function(unwrapped) {
+                return PromiseImpl.resolve(value).then(function(unwrapped) {
                     // When a yielded Promise is resolved, its final value becomes
                     // the .value of the Promise<{value,done}> result for the
                     // current iteration.
@@ -2074,7 +2044,7 @@ $({
     }
     exports.keys = function(object) {
         var keys = [];
-        for(var key1 in object)keys.push(key1);
+        for(var key in object)keys.push(key);
         keys.reverse();
         // Rather than returning an object with a next method, we keep
         // things simple and return the next function itself.
@@ -2100,7 +2070,7 @@ $({
             if (iteratorMethod) return iteratorMethod.call(iterable);
             if (typeof iterable.next === "function") return iterable;
             if (!isNaN(iterable.length)) {
-                var i = -1, next1 = function next() {
+                var i = -1, next = function next() {
                     while(++i < iterable.length)if (hasOwn.call(iterable, i)) {
                         next.value = iterable[i];
                         next.done = false;
@@ -2110,7 +2080,7 @@ $({
                     next.done = true;
                     return next;
                 };
-                return next1.next = next1;
+                return next.next = next;
             }
         }
         // Return an iterator with no values.
@@ -2312,8 +2282,8 @@ const loadRecipe = async function(id) {
             cookingTime: recipe.cooking_time,
             ingredients: recipe.ingredients
         };
-    } catch (err) {
-        throw err;
+    } catch (err1) {
+        throw err1;
     }
 };
 const loadSearchResults = async function(query) {
@@ -2349,7 +2319,37 @@ const API_URL = "https://forkify-api.herokuapp.com/api/v2/recipes/";
 const TIMEOUT_SEC = 10;
 const RES_PER_PAGE = 10;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"hGI1E":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "getJSON", ()=>getJSON);
@@ -2776,14 +2776,14 @@ Fraction.prototype.equals = function(b) {
 // Adapted from: 
 // http://www.btinternet.com/~se16/js/factor.htm
 Fraction.primeFactors = function(n) {
-    var num = Math.abs(n);
+    var num1 = Math.abs(n);
     var factors = [];
     var _factor = 2; // first potential prime factor
-    while(_factor * _factor <= num)if (num % _factor === 0) {
+    while(_factor * _factor <= num1)if (num1 % _factor === 0) {
         factors.push(_factor); // so keep it
-        num = num / _factor; // and divide our search point by it
+        num1 = num1 / _factor; // and divide our search point by it
     } else _factor++; // and increment
-    if (num != 1) factors.push(num); //    so it too should be recorded
+    if (num1 != 1) factors.push(num1); //    so it too should be recorded
     return factors; // Return the prime factors
 };
 module.exports.Fraction = Fraction;
